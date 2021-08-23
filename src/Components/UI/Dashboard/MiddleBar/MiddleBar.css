@@ -1,0 +1,91 @@
+.middlebar {
+    float: left;
+    width: 60%;
+    height: 100%;
+}
+
+.middlebar-header {
+    height: 10%;
+    background-color: pink;
+}
+
+.middlebar-body {
+    height: 90%;
+}
+
+.middlebar-chart {
+    height: 50%;
+    background-color: red;
+}
+
+.header-overview {
+    height: 100%;
+    float: left;
+    margin-bottom: 0;
+}
+
+.header-overview h3,
+.header-overview p {
+    margin-bottom: 0;
+}
+
+.header-balance h3,
+.header-balance p {
+    margin-bottom: 0;
+}
+
+.header-balance p {
+    text-align: right;
+}
+
+.transactions-list {
+    height: 100%;
+    padding: 15px;
+    overflow-x: auto;
+
+}
+
+table {
+    width: 100%;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    text-align: left;
+}
+
+tbody {
+    display: block;
+    overflow-y: auto;
+    table-layout: fixed;
+    max-height: 200px;
+}
+
+.header-balance {
+    height: 100%;
+    float: right;
+    margin: 0;
+}
+
+.middlebar-transactions {
+    height: 50%;
+    background-color: blueviolet;
+}
+
+.add-transaction {
+    float: right;
+}
+
+h5 {
+    float: left;
+    width: fit-content;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* make scrollbar transparent */
+}

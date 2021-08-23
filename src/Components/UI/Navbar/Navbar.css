@@ -1,0 +1,25 @@
+.main-nav {
+    list-style-type: none;
+    background-color: aqua;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.main-nav li {
+    float: left;
+    background-color: yellow;
+    text-align: center;
+    font-size: 15px;
+    padding: 5px 5px 5px 5px;
+    ;
+    margin: 5px;
+}
+
+nav {
+    background-color: gray;
+    height: 60px;
+}
+
+.site-access {
+    float: right;
+}
