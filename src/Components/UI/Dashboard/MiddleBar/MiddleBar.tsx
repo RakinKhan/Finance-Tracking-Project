@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
+
 const MiddleBar = () => {
-  const transactions = [];
-  const transaction = {
-    date: "",
-    account: "",
-    stock: "",
-    amount: "",
-    currencyConvFee: "",
-    transactionFee: "",
-    type: "",
+  const [transactions, setTransactions] = useState([] as any);
+
+  const transactionsHandler = (transaction: any) => {
+    setTransactions((previousTransaction: any) => {
+      return [...previousTransaction, { ...transaction, key: Math.random() }];
+    });
   };
-
   const [addingTransaction, setAddingTransaction] = useState(false);
-
+  console.log(transactions);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -44,7 +41,10 @@ const MiddleBar = () => {
                 Add Transaction
               </button>
               {addingTransaction && (
-                <AddTransaction afterSubmit={setAddingTransaction} />
+                <AddTransaction
+                  afterSubmit={setAddingTransaction}
+                  newTransaction={transactionsHandler}
+                />
               )}
             </div>
             <div className="table">
@@ -66,156 +66,18 @@ const MiddleBar = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>TFSA</td>
-                    <td>OUST</td>
-                    <td>500</td>
-                    <td>5000</td>
-                    <td style={{ width: "20%" }}>300</td>
-                    <td>5</td>
-                    <td>Buy</td>
-                  </tr>
+                  {transactions.map((transaction: any) => (
+                    <tr key={transaction.key}>
+                      <td>{transaction.date.getMonth()}</td>
+                      <td>{transaction.account}</td>
+                      <td>{transaction.stock}</td>
+                      <td>{transaction.shares}</td>
+                      <td>{transaction.amount}</td>
+                      <td style={{ width: "20%" }}>{transaction.convFee}</td>
+                      <td>{transaction.transFee}</td>
+                      <td>{transaction.type}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

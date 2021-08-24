@@ -23,6 +23,17 @@ const Form = (props: any) => {
     type: "",
   });
 
+  interface Transaction {
+    date: Date;
+    account: string;
+    stock: string;
+    shares: number;
+    amount: number;
+    convFee: number;
+    transFee: number;
+    type: string;
+  }
+
   const dateHandler = (e: any) => {
     setTransactionInput({
       ...transactionInput,
@@ -78,10 +89,20 @@ const Form = (props: any) => {
       type: e.target.value,
     });
   };
+  const transaction: Transaction = {
+    date: new Date(transactionInput.date),
+    account: transactionInput.account,
+    stock: transactionInput.stock,
+    shares: +transactionInput.shares,
+    amount: +transactionInput.amount,
+    convFee: +transactionInput.convFee,
+    transFee: +transactionInput.transFee,
+    type: transactionInput.type,
+  };
 
   const closeTransaction = (e: any) => {
+    props.newTransaction(transaction);
     props.afterSubmit(false);
-    console.log(transactionInput);
     modal.style.display = "none";
   };
 
@@ -150,7 +171,13 @@ const AddTransaction = (props: any) => {
   const addDiv: HTMLElement = document.getElementById("add")!;
   return (
     <>
-      {ReactDOM.createPortal(<Form afterSubmit={props.afterSubmit} />, addDiv)}
+      {ReactDOM.createPortal(
+        <Form
+          afterSubmit={props.afterSubmit}
+          newTransaction={props.newTransaction}
+        />,
+        addDiv
+      )}
     </>
   );
 };
