@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
-
+import TransactionTable from "./TransactionTable/TransactionTable";
 const MiddleBar = () => {
   const [transactions, setTransactions] = useState([] as any);
 
@@ -47,40 +47,7 @@ const MiddleBar = () => {
                 />
               )}
             </div>
-            <div className="table">
-              <table>
-                <thead>
-                  <tr>
-                    <th style={{ width: "10%" }} scope="col">
-                      Date
-                    </th>
-                    <th scope="col">Account</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Shares</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col" style={{ width: "20%" }}>
-                      Currency Conv. Fee
-                    </th>
-                    <th scope="col">Trans. Fee</th>
-                    <th scope="col">Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transactions.map((transaction: any) => (
-                    <tr key={transaction.key}>
-                      <td>{transaction.date.getMonth()}</td>
-                      <td>{transaction.account}</td>
-                      <td>{transaction.stock}</td>
-                      <td>{transaction.shares}</td>
-                      <td>{transaction.amount}</td>
-                      <td style={{ width: "20%" }}>{transaction.convFee}</td>
-                      <td>{transaction.transFee}</td>
-                      <td>{transaction.type}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <TransactionTable transactions={transactions} />
           </div>
         </div>
       </div>
