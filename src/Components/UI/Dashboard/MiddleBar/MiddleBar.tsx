@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
 import TransactionTable from "./TransactionTable/TransactionTable";
+
 const MiddleBar = () => {
   const [transactions, setTransactions] = useState([] as any);
 

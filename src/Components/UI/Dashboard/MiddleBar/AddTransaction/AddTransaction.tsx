@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import ReactDOM from "react-dom";
-
 import "./AddTransaction.css";
+
+const ACTIONS = {};
+const reducer = (state: any, action: any) => {};
 
 const Form = (props: any) => {
   const modal: HTMLElement = document.getElementById("add")!;
@@ -111,19 +113,25 @@ const Form = (props: any) => {
       <div>
         <div className={"modal-items"}>
           <label>Date</label>
-          <input type="date" min="2000-01-01" onChange={dateHandler} />
+          <input type="date" min="2000-01-01" onChange={dateHandler} required />
         </div>
         <div className={"modal-items"}>
           <label>Account</label>
-          <input type="text" onChange={accountHandler} />
+          <input type="text" onChange={accountHandler} required />
         </div>
         <div className={"modal-items"}>
           <label>Stock</label>
-          <input type="text" onChange={stockHandler} />
+          <input type="text" onChange={stockHandler} required />
         </div>
         <div className={"modal-items"}>
           <label>Shares</label>
-          <input type="number" min="1" step="1" onChange={sharesHandler} />
+          <input
+            type="number"
+            min="1"
+            step="1"
+            onChange={sharesHandler}
+            required
+          />
         </div>
         <div className={"modal-items"}>
           <label>Amount</label>
@@ -132,6 +140,7 @@ const Form = (props: any) => {
             min="0.01"
             step="0.01"
             onChange={amountHandler}
+            required
           />
         </div>
         <div className={"modal-items"}>
@@ -150,6 +159,7 @@ const Form = (props: any) => {
               name="type"
               value="BUY"
               onChange={typeHandler}
+              required
             />
             <label htmlFor="buy">BUY</label>
             <input
