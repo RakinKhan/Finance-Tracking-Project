@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
 import TransactionTable from "./TransactionTable/TransactionTable";
+import Chart from "./Chart/Chart";
 
 const MiddleBar = () => {
   const [transactions, setTransactions] = useState([] as any);
@@ -12,6 +13,9 @@ const MiddleBar = () => {
     });
   };
   const [addingTransaction, setAddingTransaction] = useState(false);
+  transactions.sort((a: any, b: any) => {
+    return a.date - b.date;
+  });
   console.log(transactions);
   return (
     <div className={"middlebar"}>
@@ -26,7 +30,9 @@ const MiddleBar = () => {
         </div>
       </div>
       <div className={"middlebar-body"}>
-        <div className={"middlebar-chart"}></div>
+        <div className={"middlebar-chart"}>
+          <Chart transaction={transactions} />
+        </div>
         <div className={"middlebar-transactions"}>
           <div className={"transactions-list"}>
             <div style={{ height: "auto" }}>
