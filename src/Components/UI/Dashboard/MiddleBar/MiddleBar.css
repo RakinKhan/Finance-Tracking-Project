@@ -45,6 +45,11 @@
 
 }
 
+.transaction-breakdown {
+    height: 10%;
+    background-color: green;
+}
+
 .header-balance {
     height: 100%;
     float: right;
@@ -52,7 +57,7 @@
 }
 
 .middlebar-transactions {
-    height: 50%;
+    height: 40%;
     background-color: blueviolet;
 }
 
@@ -69,4 +74,8 @@ h5 {
     width: 0px;
     background: transparent;
     /* make scrollbar transparent */
+}
+
+.transaction-breakdown {
+    padding: 5px 0;
 }

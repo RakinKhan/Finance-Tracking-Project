@@ -2,5 +2,19 @@
     float: left;
     width: 25%;
     height: 100%;
-    background-color: green
+}
+
+.profit {
+    height: 10%;
+    background-color: orange;
+}
+
+.portfolio-pie {
+    height: 45%;
+    background-color: blue;
+}
+
+.top-five {
+    height: 45%;
+    background-color: yellow;
 }

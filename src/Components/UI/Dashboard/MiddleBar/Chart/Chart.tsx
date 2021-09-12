@@ -6,15 +6,29 @@ const Chart = (props: any) => {
   const transactions = props.transaction;
   const buy = [] as any;
   const sell = [] as any;
+  const labels = [] as any;
+  const bookValue = [] as any;
+  let bookCost = 0;
   transactions.forEach((transaction: any) => {
     let x = new Date(transaction.date);
     let y = transaction.amount;
+    labels.push(x);
     if (transaction.type === "BUY") {
+      bookCost += transaction.amount;
+      bookValue.push({
+        x: x,
+        y: bookCost,
+      });
       return buy.push({
         x: x,
         y: y,
       });
     } else {
+      bookCost -= transaction.amount;
+      bookValue.push({
+        x: x,
+        y: bookCost,
+      });
       return sell.push({
         x: x,
         y: y,
@@ -22,22 +36,32 @@ const Chart = (props: any) => {
     }
   });
   console.log(buy);
-  console.log(sell);
+  console.log(labels);
   const buys = [
     { x: new Date("Wed Jul 14 2021"), y: 30 },
-    { x: "2021-06-25", y: 20 },
-    { x: "2021-06-26", y: 15 },
-    { x: "2021-06-27", y: 20 },
-    { x: "2021-07-28", y: 10 },
+    { x: "2021-6-25", y: 20 },
+    { x: "2021-6-26", y: 15 },
+    { x: "2021-6-27", y: 20 },
+    { x: "2021-7-28", y: 10 },
   ] as any;
+
   const data = {
+    labels: labels,
     datasets: [
+      {
+        type: "line",
+        label: "Book Value",
+        data: bookValue,
+        backgroundColor: "gray",
+        fill: false,
+      },
       {
         type: "bar",
         label: "Buy",
         data: buy,
         backgroundColor: "green",
         fill: false,
+        stack: "combined",
       },
       {
         type: "bar",
@@ -45,6 +69,7 @@ const Chart = (props: any) => {
         data: sell,
         backgroundColor: "purple",
         fill: false,
+        stack: "combined",
       },
     ],
   };
@@ -57,25 +82,23 @@ const Chart = (props: any) => {
             responsive: true,
             title: {
               display: true,
-              text: "Average Rainfall per month",
+              text: "Portfolio",
               fontSize: 20,
             },
             legend: {
               display: true,
-              position: "right",
+              position: "top",
             },
           },
           scales: {
             x: {
               type: "time",
               time: {
-                displayFormats: {
-                  quarter: "MMM YYYY",
-                },
-                unit: "month",
+                unit: "day",
               },
             },
             y: {
+              stacked: true,
               beginAtZero: true,
             },
           },
