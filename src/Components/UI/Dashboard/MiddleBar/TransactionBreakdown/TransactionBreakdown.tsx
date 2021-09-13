@@ -12,10 +12,20 @@ const TransactionBreakDown = (e: any) => {
         </div>
       </div>
       <div className={"col"}>
-        <div className={"transaction-card"}>Conversion Fees:</div>
+        <div className={"transaction-card"}>
+          <div>
+            <p>Conversion Fees:</p>
+            <p>${6}</p>
+          </div>
+        </div>
       </div>
       <div className={"col"}>
-        <div className={"transaction-card"}>Transaction Fees:</div>
+        <div className={"transaction-card"}>
+          <div>
+            <p>Transaction Fees:</p>
+            <p>${6}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
