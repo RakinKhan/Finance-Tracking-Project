@@ -1,11 +1,13 @@
 import React from "react";
 import "./RightSideBar.css";
-
-const RightSideBar = () => {
+import BreakdownPie from "./BreakdownPie/BreakdownPie";
+const RightSideBar = (props: any) => {
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>
-      <div className={"portfolio-pie"}></div>
+      <div className={"portfolio-pie"}>
+        <BreakdownPie transactions={props.transactions} />
+      </div>
       <div className={"top-five"}></div>
     </div>
   );

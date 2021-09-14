@@ -35,15 +35,6 @@ const Chart = (props: any) => {
       });
     }
   });
-  console.log(buy);
-  console.log(labels);
-  const buys = [
-    { x: new Date("Wed Jul 14 2021"), y: 30 },
-    { x: "2021-6-25", y: 20 },
-    { x: "2021-6-26", y: 15 },
-    { x: "2021-6-27", y: 20 },
-    { x: "2021-7-28", y: 10 },
-  ] as any;
 
   const data = {
     labels: labels,

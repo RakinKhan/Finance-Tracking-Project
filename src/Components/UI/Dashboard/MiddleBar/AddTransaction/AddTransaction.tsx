@@ -94,7 +94,7 @@ const Form = (props: any) => {
   const transaction: Transaction = {
     date: new Date(transactionInput.date),
     account: transactionInput.account,
-    stock: transactionInput.stock,
+    stock: transactionInput.stock.toUpperCase(),
     shares: +transactionInput.shares,
     amount: +transactionInput.amount,
     convFee: +transactionInput.convFee,

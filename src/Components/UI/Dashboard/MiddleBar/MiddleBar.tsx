@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
 import TransactionTable from "./TransactionTable/TransactionTable";
 import Chart from "./Chart/Chart";
 import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
 
-const MiddleBar = () => {
+const MiddleBar = (props: any) => {
   const [transactions, setTransactions] = useState([] as any);
+
+  useEffect(() => {
+    props.transactionsAll(transactions);
+  }, [props, transactions]);
   let totalAmount = 0;
   const transactionsHandler = (transaction: any) => {
     setTransactions((previousTransaction: any) => {
@@ -24,7 +28,7 @@ const MiddleBar = () => {
       totalAmount -= transaction.amount;
     }
   });
-  console.log(transactions);
+
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -42,7 +46,7 @@ const MiddleBar = () => {
           <Chart transaction={transactions} />
         </div>
         <div className={"transaction-breakdown"}>
-          <TransactionBreakDown />
+          <TransactionBreakDown transactions={transactions} />
         </div>
         <div className={"middlebar-transactions"}>
           <div className={"transactions-list"}>
