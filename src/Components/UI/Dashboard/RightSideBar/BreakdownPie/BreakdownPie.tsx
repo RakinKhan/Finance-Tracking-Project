@@ -1,19 +1,25 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
+let backgroundColor = [] as any;
+
 const BreakdownPie = (props: any) => {
   const transactions = props.transactions;
-  let data = [] as any;
-  let point = [] as any;
+  let stockName = [] as any;
+  let labels = [] as any;
+  let datapoints = [] as any;
+
   const sumShares = (shares: any) =>
     shares.reduce((a: any, b: any) => a + b, 0);
+
   transactions.forEach((transaction: any) => {
     let stock = transaction.stock;
-    if (!data.includes(stock)) {
-      data.push(stock);
+    if (!stockName.includes(stock)) {
+      stockName.push(stock);
     }
   });
-  data.forEach((stock: any) => {
+
+  stockName.forEach((stock: any) => {
     const allStockTransactions = transactions.filter(
       (transaction: any) => transaction.stock === stock
     );
@@ -29,17 +35,46 @@ const BreakdownPie = (props: any) => {
     const sharesBought = sumShares(buy);
     const sharesSold = sumShares(sell);
     if (sharesBought > sharesSold) {
-      point.push({
-        stock: stock,
-        sharesTotal: sharesBought - sharesSold,
-      });
+      labels.push(stock);
+      datapoints.push(sharesBought - sharesSold);
+      backgroundColor.push(
+        `rgb(${Math.floor(Math.random() * 255) + 1},${
+          Math.floor(Math.random() * 255) + 1
+        },${Math.floor(Math.random() * 255) + 1})`
+      );
     }
   });
-  console.log(point);
+
+  const dataset = {
+    labels: labels,
+    datasets: [
+      {
+        data: datapoints,
+        backgroundColor: backgroundColor,
+        hoverOffset: 2,
+      },
+    ],
+  };
+  console.log(labels, datapoints);
   return (
-    <div>
-      <Doughnut data={{}} options={{}} />
-    </div>
+    <>
+      <Doughnut
+        data={dataset}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+            },
+            title: {
+              display: true,
+              text: "Portfolio",
+            },
+          },
+        }}
+      />
+    </>
   );
 };
 
