@@ -39,16 +39,25 @@ const TopFive = (props: any) => {
       });
     }
   });
+
   console.log(averages);
   return (
     <div className={"divstyle"}>
       <div className={"top-performers-header"}>Top Performers</div>
       <div className={"topfive"}>
-        <div className={"topfive-card"}>{}</div>
-        <div className={"topfive-card"}>{}</div>
-        <div className={"topfive-card"}>{}</div>
-        <div className={"topfive-card"}>{}</div>
-        <div className={"topfive-card"}>{}</div>
+        {averages.length <= 5 &&
+          averages.map((average: any) => (
+            <div className={"topfive-card"}>
+              <div className={"performer"}>
+                <div className={"centering"}>
+                  <div className={"performer-ls"}>
+                    {average.name}: ${average.averageCost.toFixed(2)}
+                  </div>
+                  <div className={"performer-rs"}>Stock</div>
+                </div>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
