@@ -11,6 +11,7 @@ const MiddleBar = (props: any) => {
   useEffect(() => {
     props.transactionsAll(transactions);
   }, [props, transactions]);
+
   let totalAmount = 0;
   const transactionsHandler = (transaction: any) => {
     setTransactions((previousTransaction: any) => {

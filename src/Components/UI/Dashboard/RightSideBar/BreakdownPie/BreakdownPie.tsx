@@ -25,8 +25,10 @@ const BreakdownPie = (props: any) => {
     );
     let buy = [] as any;
     let sell = [] as any;
+    let amount = [] as any;
     allStockTransactions.forEach((transaction: any) => {
       if (transaction.type === "BUY") {
+        amount.push(transaction.amount);
         buy.push(transaction.shares);
       } else if (transaction.type === "SELL") {
         sell.push(transaction.shares);
@@ -34,6 +36,7 @@ const BreakdownPie = (props: any) => {
     });
     const sharesBought = sumShares(buy);
     const sharesSold = sumShares(sell);
+
     if (sharesBought > sharesSold) {
       labels.push(stock);
       datapoints.push(sharesBought - sharesSold);
@@ -55,6 +58,7 @@ const BreakdownPie = (props: any) => {
       },
     ],
   };
+
   console.log(labels, datapoints);
   return (
     <>
