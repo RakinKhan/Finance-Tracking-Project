@@ -87,10 +87,24 @@ const Chart = (props: any) => {
               time: {
                 unit: "day",
               },
+              title: {
+                display: true,
+                text: "Date",
+              },
+              grid: {
+                display: false,
+              },
             },
             y: {
               stacked: true,
               beginAtZero: true,
+              title: {
+                display: true,
+                text: "Value",
+              },
+              grid: {
+                display: false,
+              },
             },
           },
         }}

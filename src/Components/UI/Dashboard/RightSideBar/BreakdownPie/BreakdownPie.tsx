@@ -17,7 +17,6 @@ const BreakdownPie = (props: any) => {
     ],
   };
 
-  console.log(labels, datapoints);
   return (
     <>
       <Doughnut
