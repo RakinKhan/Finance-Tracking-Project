@@ -7,7 +7,7 @@ const TopFive = (props: any) => {
   const averages = props.averages;
   const [searchedStock, setSearchedStock] = useState([] as any);
   const [priceAverages, setPriceAverages] = useState([] as any);
-
+  let calculatedAverages = [] as any;
   if (averages.length > 0) {
     averages.forEach((average: any) => {
       if (!searchedStock.includes(average.stock)) {
@@ -39,22 +39,41 @@ const TopFive = (props: any) => {
     fetchPrice();
   }, [toSearch]);
 
-  console.log(priceAverages);
-  averages.sort((a: any, b: any) => b.averageCost - a.averageCost);
+  averages.forEach((average: any) => {
+    priceAverages.forEach((priceAverage: any) => {
+      if (priceAverage.stock === average.stock) {
+        calculatedAverages.push({
+          stock: average.stock,
+          id: average.id,
+          change:
+            (priceAverage.price - average.averageCost) / average.averageCost,
+          bookValue: average.sharesHeld * average.averageCost,
+          marketValue: average.sharesHeld * priceAverage.price,
+        });
+      }
+    });
+  });
+  calculatedAverages.sort((a: any, b: any) => {
+    return b.change - a.change;
+  });
+  console.log(calculatedAverages);
+  console.log(averages);
 
   return (
     <div className={"divstyle"}>
       <div className={"top-performers-header"}>Top Performers</div>
       <div className={"topfive"}>
-        {averages.length <= 5 &&
-          averages.map((average: any) => (
+        {calculatedAverages.length <= 5 &&
+          calculatedAverages.map((average: any) => (
             <div className={"topfive-card"} key={average.id}>
               <div className={"performer"}>
                 <div className={"centering"}>
                   <div className={"performer-ls"}>
-                    {average.stock}: ${average.averageCost.toFixed(2)}
+                    {average.stock}: ${average.marketValue}
                   </div>
-                  <div className={"performer-rs"}>Stock</div>
+                  <div className={"performer-rs"}>
+                    {average.change.toFixed(2)}%
+                  </div>
                 </div>
               </div>
             </div>

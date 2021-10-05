@@ -48,7 +48,8 @@ const RightSideBar = (props: any) => {
       );
       averages.push({
         stock: stock,
-        averageCost: sumShares(amount) / sharesBought,
+        sharesHeld: sharesBought - sharesSold,
+        averageCost: (sumShares(amount) / sharesBought).toFixed(2),
         id: Math.random(),
       });
     }
