@@ -29,7 +29,6 @@ const MiddleBar = (props: any) => {
       totalAmount -= transaction.amount;
     }
   });
-
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>

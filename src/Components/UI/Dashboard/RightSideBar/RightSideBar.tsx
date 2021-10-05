@@ -49,14 +49,11 @@ const RightSideBar = (props: any) => {
       averages.push({
         stock: stock,
         averageCost: sumShares(amount) / sharesBought,
-        id: stock.id,
+        id: Math.random(),
       });
     }
   });
-  console.log(stockName);
-  console.log(labels);
-  console.log(datapoints);
-  console.log(averages);
+
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>
