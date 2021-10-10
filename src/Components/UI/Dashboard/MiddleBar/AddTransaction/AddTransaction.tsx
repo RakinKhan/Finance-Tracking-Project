@@ -103,6 +103,7 @@ const Form = (props: any) => {
   };
 
   const closeTransaction = (e: any) => {
+    e.preventDefault();
     props.newTransaction(transaction);
     props.afterSubmit(false);
     modal.style.display = "none";

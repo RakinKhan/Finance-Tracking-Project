@@ -9,6 +9,7 @@ let backgroundColor = [] as any;
 
 const RightSideBar = (props: any) => {
   const transactions = props.transactions;
+  const currentPrices = props.prices;
   let stockName = [] as any;
   let labels = [] as any;
   let datapoints = [] as any;
@@ -66,7 +67,7 @@ const RightSideBar = (props: any) => {
         />
       </div>
       <div className={"top-five"}>
-        <TopFive averages={averages} />
+        <TopFive averages={averages} currentPrices={currentPrices} />
       </div>
     </div>
   );

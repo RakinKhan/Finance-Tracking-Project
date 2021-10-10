@@ -6,12 +6,15 @@ import RightSideBar from "./RightSideBar/RightSideBar";
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
   const [pricesAll, setPricesAll] = useState([] as any);
+
   const transactionsAllHandler = (transactionsHistory: any) => {
     setTransactionsAll(transactionsHistory);
   };
   const pricesAllHandler = (pricesAllHistory: any) => {
     setPricesAll(pricesAllHistory);
   };
+  console.log(transactionsAll);
+  console.log(pricesAll);
   return (
     <div className={"container pageheight"}>
       <LeftSideBar />
