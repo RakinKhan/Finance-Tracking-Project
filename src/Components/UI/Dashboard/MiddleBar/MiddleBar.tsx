@@ -7,17 +7,52 @@ import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
 
 const MiddleBar = (props: any) => {
   const [transactions, setTransactions] = useState([] as any);
+  const [search, setSearch] = useState(false);
+  const [priceHistory, setPriceHistory] = useState([] as any);
 
   useEffect(() => {
     props.transactionsAll(transactions);
-  }, [props, transactions]);
+  }, [props, transactions, priceHistory]);
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const response = await fetch(
+        `https://finnhub.io/api/v1/stock/candle?symbol=${search}&resolution=D&from=1609477200&to=1640926800&token=bprteb7rh5r8s3uvb2ag`
+      );
+      const data = await response.json();
+      let priceHistory = [] as any;
+      for (let i = 0; i < data.c.length; i++) {
+        priceHistory.push({
+          timeUNIX: data.t[i],
+          price: data.c[i],
+        });
+      }
+      const block = {
+        stock: search,
+        price: priceHistory,
+      };
+      setPriceHistory((prevAverages: any) => {
+        return [...prevAverages, block];
+      });
+    };
+    if (search) {
+      fetchPrice();
+    }
+  }, [search]);
 
   let totalAmount = 0;
   const transactionsHandler = (transaction: any) => {
+    if (search !== transaction.stock) {
+      if (priceHistory.length === 1) {
+        priceHistory.shift();
+      }
+      setSearch(transaction.stock);
+    }
     setTransactions((previousTransaction: any) => {
       return [...previousTransaction, { ...transaction, key: Math.random() }];
     });
   };
+  console.log(priceHistory);
   const [addingTransaction, setAddingTransaction] = useState(false);
   transactions.sort((a: any, b: any) => {
     return a.date - b.date;
@@ -38,7 +73,11 @@ const MiddleBar = (props: any) => {
         </div>
         <div className={"header-balance"}>
           <h3>Balance</h3>
-          <p>${totalAmount}</p>
+          <p>
+            {" "}
+            <>$</>
+            {totalAmount}
+          </p>
         </div>
       </div>
       <div className={"middlebar-body"}>

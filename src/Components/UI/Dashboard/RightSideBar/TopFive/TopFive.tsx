@@ -57,7 +57,6 @@ const TopFive = (props: any) => {
     return b.change - a.change;
   });
   console.log(calculatedAverages);
-  console.log(averages);
 
   return (
     <div className={"divstyle"}>
@@ -69,10 +68,11 @@ const TopFive = (props: any) => {
               <div className={"performer"}>
                 <div className={"centering"}>
                   <div className={"performer-ls"}>
-                    {average.stock}: ${average.marketValue}
+                    {average.stock}: <>$</>
+                    {average.marketValue.toFixed(2)}
                   </div>
                   <div className={"performer-rs"}>
-                    {average.change.toFixed(2)}%
+                    {average.change.toFixed(2) * 100}%
                   </div>
                 </div>
               </div>
