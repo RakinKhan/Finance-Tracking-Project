@@ -4,7 +4,7 @@ import "./TopFive.css";
 const TopFive = (props: any) => {
   const averages = props.averages;
   const currentPrices = props.currentPrices;
-  console.log(currentPrices);
+
   let calculatedAverages = [] as any;
 
   averages.forEach((average: any) => {

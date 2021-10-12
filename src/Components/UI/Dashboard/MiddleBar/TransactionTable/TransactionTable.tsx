@@ -23,9 +23,9 @@ const TransactionTable = (props: any) => {
         <tbody>
           {props.transactions.map((transaction: any) => (
             <tr key={transaction.key}>
-              <td
-                style={{ width: "15%" }}
-              >{`${transaction.date.getDate()}-${transaction.date.getMonth()}-${transaction.date.getFullYear()}`}</td>
+              <td style={{ width: "15%" }}>{`${transaction.date.getDate()}-${
+                transaction.date.getMonth() + 1
+              }-${transaction.date.getFullYear()}`}</td>
               <td>{transaction.account}</td>
               <td>{transaction.stock}</td>
               <td>{transaction.shares}</td>

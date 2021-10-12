@@ -13,8 +13,7 @@ const Dashboard = () => {
   const pricesAllHandler = (pricesAllHistory: any) => {
     setPricesAll(pricesAllHistory);
   };
-  console.log(transactionsAll);
-  console.log(pricesAll);
+
   return (
     <div className={"container pageheight"}>
       <LeftSideBar />

@@ -10,19 +10,19 @@ const MiddleBar = (props: any) => {
   const [priceHistory, setPriceHistory] = useState([] as any);
   const fetchPrice = async (stock: any) => {
     const response = await fetch(
-      `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=D&from=1609477200&to=1640926800&token=bprteb7rh5r8s3uvb2ag`
+      `https://sandbox.iexapis.com/stable/stock/${stock}/chart/max?token=Tpk_d74af26498e04009989e2c65053d1783`
     );
     const data = await response.json();
-    let priceHistory = [] as any;
-    for (let i = 0; i < data.c.length; i++) {
-      priceHistory.push({
-        timeUNIX: data.t[i],
-        price: data.c[i],
-      });
-    }
+    const filteredData = data.map((dayData: any) => {
+      return {
+        date: new Date(dayData.date.replace(/-/g, "/")),
+        price: dayData.close,
+      };
+    });
+
     const block = {
       stock: stock,
-      price: priceHistory,
+      price: filteredData,
     };
     setPriceHistory((prevAverages: any) => {
       return [...prevAverages, block];
@@ -61,10 +61,7 @@ const MiddleBar = (props: any) => {
 
   useEffect(() => {
     let currentPrices = priceHistory.map((stockPrice: any) => {
-      return {
-        stock: stockPrice.stock,
-        price: stockPrice.price[stockPrice.price.length - 1]["price"],
-      };
+      return stockPrice.stock;
     });
     props.transactionsAll(transactions);
     props.pricesAll(currentPrices);
@@ -88,7 +85,7 @@ const MiddleBar = (props: any) => {
       </div>
       <div className={"middlebar-body"}>
         <div className={"middlebar-chart"}>
-          <Chart transaction={transactions} />
+          <Chart transaction={transactions} priceHistory={priceHistory} />
         </div>
         <div className={"transaction-breakdown"}>
           <TransactionBreakDown transactions={transactions} />

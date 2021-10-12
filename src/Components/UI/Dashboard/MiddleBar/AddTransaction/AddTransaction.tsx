@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react";
 import ReactDOM from "react-dom";
+import moment from "moment";
 import "./AddTransaction.css";
 
 const ACTIONS = {};
@@ -92,7 +93,7 @@ const Form = (props: any) => {
     });
   };
   const transaction: Transaction = {
-    date: new Date(transactionInput.date),
+    date: new Date(transactionInput.date.replace(/-/g, "/")),
     account: transactionInput.account,
     stock: transactionInput.stock.toUpperCase(),
     shares: +transactionInput.shares,
