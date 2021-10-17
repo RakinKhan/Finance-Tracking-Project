@@ -4,6 +4,22 @@ import "chartjs-adapter-moment";
 
 const sumShares = (shares: any) => shares.reduce((a: any, b: any) => a + b, 0);
 
+const dateRange = (start: any) => {
+  let dates = [] as any;
+  let startDate = start.getTime();
+  const today = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate()
+  ).getTime();
+  let currentDate = startDate;
+  while (currentDate <= today) {
+    dates.push(new Date(currentDate));
+    currentDate += 86400000;
+  }
+  return dates;
+};
+
 const Chart = (props: any) => {
   const transactions = props.transaction;
   const priceHistory = props.priceHistory;
@@ -11,26 +27,13 @@ const Chart = (props: any) => {
   const sell = [] as any;
   const labels = [] as any;
   const bookValue = [] as any;
-  console.log(transactions);
+  let dateCollection = [] as any;
   let bookCost = 0;
+  if (transactions.length > 0) {
+    dateCollection = dateRange(transactions[0].date);
+  }
 
-  priceHistory.forEach((history: any) => {
-    const datePrice = history.price;
-    const indivStockTransactions = transactions.filter(
-      (transaction: any) => transaction.stock === history.stock
-    );
-    indivStockTransactions.forEach((transaction: any) => {
-      if (transaction.type === "BUY") {
-        const priceOfDay = datePrice.find(
-          (dP: any) =>
-            dP.date.getTime() / 1000 === transaction.date.getTime() / 1000
-        );
-        console.log(transaction.date, priceOfDay.date);
-        console.log({ stock: history.stock, dateAndPrice: priceOfDay });
-      }
-    });
-  });
-
+  console.log(dateCollection);
   transactions.forEach((transaction: any) => {
     let x = transaction.date;
     let y = transaction.amount;
@@ -59,7 +62,7 @@ const Chart = (props: any) => {
   });
   console.log(labels);
   const data = {
-    labels: labels,
+    labels: dateCollection,
     datasets: [
       {
         type: "line",
@@ -105,7 +108,7 @@ const Chart = (props: any) => {
           },
           scales: {
             x: {
-              type: "time",
+              type: "timeseries",
               time: {
                 unit: "day",
               },

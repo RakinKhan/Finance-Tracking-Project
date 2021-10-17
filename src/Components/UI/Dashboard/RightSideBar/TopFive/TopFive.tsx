@@ -21,6 +21,7 @@ const TopFive = (props: any) => {
       }
     });
   });
+
   calculatedAverages.sort((a: any, b: any) => {
     return b.change - a.change;
   });

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LeftSideBar from "./LeftSideBar/LeftSideBar";
 import MiddleBar from "./MiddleBar/MiddleBar";
 import RightSideBar from "./RightSideBar/RightSideBar";
+
+const socket = new WebSocket("wss://ws.finnhub.io?token=bprteb7rh5r8s3uvb2ag");
 
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
