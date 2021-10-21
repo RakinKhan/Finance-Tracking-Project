@@ -1,6 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
+import { FileWatcherEventKind } from "typescript";
 
 const sumShares = (shares: any) => shares.reduce((a: any, b: any) => a + b, 0);
 
@@ -28,12 +29,33 @@ const Chart = (props: any) => {
   const labels = [] as any;
   const bookValue = [] as any;
   let dateCollection = [] as any;
+  const priceHistoryDayAll = [] as any;
   let bookCost = 0;
+  const dummy = [] as any;
   if (transactions.length > 0) {
     dateCollection = dateRange(transactions[0].date);
+    dateCollection.forEach((date: any) => {
+      const startDate = date;
+      let priceTotal = 0;
+      for (let i = 0; i < priceHistory.length; i++) {
+        const startDate2 = transactions.filter(
+          (transaction: any) => transaction.stock === priceHistory[i].stock
+        )[0].date;
+        const found = priceHistory[i].priceHistory.find(
+          (stock: any) => stock.date.getTime() === startDate.getTime()
+        );
+        if (
+          found !== undefined &&
+          startDate.getTime() >= startDate2.getTime()
+        ) {
+          priceTotal += found.price;
+        }
+      }
+      if (priceTotal !== 0) {
+        priceHistoryDayAll.push({ x: startDate, y: priceTotal });
+      }
+    });
   }
-
-  console.log(dateCollection);
   transactions.forEach((transaction: any) => {
     let x = transaction.date;
     let y = transaction.amount;
@@ -60,14 +82,13 @@ const Chart = (props: any) => {
       });
     }
   });
-  console.log(labels);
   const data = {
     labels: dateCollection,
     datasets: [
       {
         type: "line",
         label: "Book Value",
-        data: bookValue,
+        data: priceHistoryDayAll,
         backgroundColor: "gray",
         fill: false,
       },
@@ -138,4 +159,4 @@ const Chart = (props: any) => {
   );
 };
 
-export default Chart;
+export default React.memo(Chart);

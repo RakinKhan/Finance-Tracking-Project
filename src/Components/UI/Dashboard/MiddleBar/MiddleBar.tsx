@@ -22,7 +22,7 @@ const MiddleBar = (props: any) => {
 
     const block = {
       stock: stock,
-      price: filteredData,
+      priceHistory: filteredData,
     };
     setPriceHistory((prevAverages: any) => {
       return [...prevAverages, block];
@@ -66,7 +66,7 @@ const MiddleBar = (props: any) => {
     props.transactionsAll(transactions);
     props.pricesAll(currentPrices);
   }, [transactions, priceHistory]);
-  console.log(priceHistory);
+
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -115,4 +115,4 @@ const MiddleBar = (props: any) => {
   );
 };
 
-export default MiddleBar;
+export default React.memo(MiddleBar);

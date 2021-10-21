@@ -50,4 +50,4 @@ const TopFive = (props: any) => {
   );
 };
 
-export default TopFive;
+export default React.memo(TopFive);
