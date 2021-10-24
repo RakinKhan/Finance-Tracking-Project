@@ -14,7 +14,7 @@ const RightSideBar = (props: any) => {
   let labels = [] as any;
   let datapoints = [] as any;
   let averages = [] as any;
-
+  let stockIntervals = [] as any;
   transactions.forEach((transaction: any) => {
     if (!stockName.includes(transaction.stock)) {
       stockName.push(transaction.stock);
@@ -36,6 +36,7 @@ const RightSideBar = (props: any) => {
         sell.push(transaction.shares);
       }
     });
+
     const sharesBought = sumShares(buy);
     const sharesSold = sumShares(sell);
 
@@ -55,7 +56,7 @@ const RightSideBar = (props: any) => {
       });
     }
   });
-
+  console.log(stockIntervals);
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>
