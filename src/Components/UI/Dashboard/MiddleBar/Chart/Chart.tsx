@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 
@@ -18,6 +18,71 @@ const dateRange = (start: any) => {
     currentDate += 86400000;
   }
   return dates;
+};
+
+const marketValues = (
+  stockNames: any,
+  priceHistory: any,
+  stockIntervals: any
+) => {
+  const names = stockNames;
+  const history = priceHistory;
+  const intervals = stockIntervals;
+  names.forEach((name: any) => {
+    const foundIntervals = intervals.find(
+      (stock: any) => stock.stockName === name
+    ).ownershipRange;
+    const foundHistory = history
+      .find((stock: any) => stock.stock === name)
+      .priceHistory.filter(
+        (range: any) => range.date.getTime() >= foundIntervals[0].date.getTime()
+      );
+
+    if (foundIntervals.length === 1) {
+      const marketValues = [] as any;
+      let amount = foundIntervals[0].amount;
+      foundHistory.forEach((datePrice: any) => {
+        marketValues.push({
+          date: datePrice.date,
+          marketValue: datePrice.price * amount,
+        });
+      });
+      console.log(amount);
+      console.log(marketValues);
+    } else if (foundIntervals.length > 1) {
+      const marketValues = [] as any;
+      let amount = foundIntervals[0].amount;
+      for (let i = 0; i < foundIntervals.length - 1; i++) {
+        foundHistory.forEach((datePrice: any) => {
+          if (
+            datePrice.date.getTime() >= foundIntervals[i].date.getTime() &&
+            datePrice.date.getTime() < foundIntervals[i + 1].date.getTime()
+          ) {
+            marketValues.push({
+              date: datePrice.date,
+              marketValue: datePrice.price * amount,
+            });
+          } else {
+            amount = foundIntervals[i + 1].amount;
+            console.log(amount);
+          }
+        });
+      }
+      const lastToNow = foundHistory.filter(
+        (datePrice: any) =>
+          datePrice.date.getTime() >=
+          foundIntervals[foundIntervals.length - 1].date.getTime()
+      );
+      lastToNow.forEach((datePrice: any) => {
+        marketValues.push({
+          date: datePrice.date,
+          marketValue: datePrice.price * amount,
+        });
+      });
+      console.log(marketValues);
+    }
+  });
+  return "its working";
 };
 
 const Chart = (props: any) => {
@@ -93,22 +158,6 @@ const Chart = (props: any) => {
       });
     });
   }
-
-  const marketValues = (
-    stockNames: any,
-    priceHistory: any,
-    stockIntervals: any
-  ) => {
-    const names = stockNames;
-    const history = priceHistory;
-    const intervals = stockIntervals;
-
-    names.forEach((name: any) => {
-      const found = history.find((stock: any) => stock.stock === name);
-      console.log(found?.priceHistory);
-    });
-    return "its working";
-  };
   console.log(marketValues(stockNames, priceHistory, stockIntervals));
   transactions.forEach((transaction: any) => {
     let x = transaction.date;
@@ -164,6 +213,7 @@ const Chart = (props: any) => {
       },
     ],
   };
+
   return (
     <div>
       <Line

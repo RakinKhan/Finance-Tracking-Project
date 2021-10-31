@@ -63,10 +63,15 @@ const MiddleBar = (props: any) => {
     let currentPrices = priceHistory.map((stockPrice: any) => {
       return stockPrice.stock;
     });
+
     props.transactionsAll(transactions);
     props.pricesAll(currentPrices);
   }, [transactions, priceHistory]);
-
+  if (priceHistory) {
+    console.log(priceHistory);
+  } else {
+    console.log(false);
+  }
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -84,9 +89,7 @@ const MiddleBar = (props: any) => {
         </div>
       </div>
       <div className={"middlebar-body"}>
-        <div className={"middlebar-chart"}>
-          <Chart transaction={transactions} priceHistory={priceHistory} />
-        </div>
+        <div className={"middlebar-chart"}></div>
         <div className={"transaction-breakdown"}>
           <TransactionBreakDown transactions={transactions} />
         </div>
