@@ -8,34 +8,8 @@ import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
 const MiddleBar = (props: any) => {
   const [transactions, setTransactions] = useState([] as any);
   const [priceHistory, setPriceHistory] = useState([] as any);
-  const fetchPrice = async (stock: any) => {
-    const response = await fetch(
-      `https://sandbox.iexapis.com/stable/stock/${stock}/chart/max?token=Tpk_d74af26498e04009989e2c65053d1783`
-    );
-    const data = await response.json();
-    const filteredData = data.map((dayData: any) => {
-      return {
-        date: new Date(dayData.date.replace(/-/g, "/")),
-        price: dayData.close,
-      };
-    });
-
-    const block = {
-      stock: stock,
-      priceHistory: filteredData,
-    };
-    setPriceHistory((prevAverages: any) => {
-      return [...prevAverages, block];
-    });
-  };
-
   let totalAmount = 0;
   const transactionsHandler = (transaction: any) => {
-    let stock = transaction.stock;
-    let list = priceHistory.map((price: any) => price.stock);
-    if (!list.includes(stock)) {
-      fetchPrice(stock);
-    }
     setTransactions((previousTransaction: any) => {
       return [...previousTransaction, { ...transaction, key: Math.random() }];
     });
@@ -60,18 +34,42 @@ const MiddleBar = (props: any) => {
   };
 
   useEffect(() => {
+    const fetchPrice = async (stock: any) => {
+      const response = await fetch(
+        `https://sandbox.iexapis.com/stable/stock/${stock}/chart/max?token=Tpk_d74af26498e04009989e2c65053d1783`
+      );
+      const data = await response.json();
+      const filteredData = data.map((dayData: any) => {
+        return {
+          date: new Date(dayData.date.replace(/-/g, "/")),
+          price: dayData.close,
+        };
+      });
+
+      const block = {
+        stock: stock,
+        priceHistory: filteredData,
+      };
+      setPriceHistory((prevAverages: any) => {
+        return [...prevAverages, block];
+      });
+    };
+
     let currentPrices = priceHistory.map((stockPrice: any) => {
       return stockPrice.stock;
     });
 
     props.transactionsAll(transactions);
     props.pricesAll(currentPrices);
-  }, [transactions, priceHistory]);
-  if (priceHistory) {
-    console.log(priceHistory);
-  } else {
-    console.log(false);
-  }
+    let list = transactions.map((price: any) => price.stock);
+    let list2 = priceHistory.map((price: any) => price.stock);
+    list.forEach((stock: any) => {
+      if (!list2.includes(stock)) {
+        fetchPrice(stock);
+      }
+    });
+  }, [transactions]);
+  console.log(priceHistory);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>

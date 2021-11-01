@@ -56,7 +56,7 @@ const RightSideBar = (props: any) => {
       });
     }
   });
-  console.log(stockIntervals);
+
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>
