@@ -105,8 +105,9 @@ const Form = (props: any) => {
 
   const closeTransaction = (e: any) => {
     e.preventDefault();
-    props.newTransaction(transaction);
     props.afterSubmit(false);
+    props.newTransaction(transaction);
+
     modal.style.display = "none";
   };
 

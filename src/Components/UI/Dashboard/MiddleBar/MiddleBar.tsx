@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
 import TransactionTable from "./TransactionTable/TransactionTable";
@@ -8,31 +8,10 @@ import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
 const MiddleBar = (props: any) => {
   const [transactions, setTransactions] = useState([] as any);
   const [priceHistory, setPriceHistory] = useState([] as any);
+  const changeComponent = useRef(0);
+  const len0 = useRef(transactions);
+  const len = useRef(priceHistory);
   let totalAmount = 0;
-  const transactionsHandler = (transaction: any) => {
-    setTransactions((previousTransaction: any) => {
-      return [...previousTransaction, { ...transaction, key: Math.random() }];
-    });
-  };
-
-  const [addingTransaction, setAddingTransaction] = useState(false);
-  transactions.sort((a: any, b: any) => {
-    return a.date - b.date;
-  });
-  transactions.forEach((transaction: any) => {
-    if (transaction.type === "BUY") {
-      totalAmount += transaction.amount;
-    } else {
-      totalAmount -= transaction.amount;
-    }
-  });
-
-  const addTransactionHandler = (e: any) => {
-    setAddingTransaction(true);
-    const modal: HTMLElement = document.getElementById("add")!;
-    modal.style.display = "block";
-  };
-
   useEffect(() => {
     const fetchPrice = async (stock: any) => {
       const response = await fetch(
@@ -69,7 +48,37 @@ const MiddleBar = (props: any) => {
       }
     });
   }, [transactions]);
-  console.log(priceHistory);
+
+  const transactionsHandler = (transaction: any) => {
+    changeComponent.current = 1;
+    setTransactions((previousTransaction: any) => {
+      return [...previousTransaction, { ...transaction, key: Math.random() }];
+    });
+  };
+
+  const [addingTransaction, setAddingTransaction] = useState(false);
+  transactions.sort((a: any, b: any) => {
+    return a.date - b.date;
+  });
+  transactions.forEach((transaction: any) => {
+    if (transaction.type === "BUY") {
+      totalAmount += transaction.amount;
+    } else {
+      totalAmount -= transaction.amount;
+    }
+  });
+
+  const addTransactionHandler = (e: any) => {
+    setAddingTransaction(true);
+    const modal: HTMLElement = document.getElementById("add")!;
+    modal.style.display = "block";
+  };
+
+  if (priceHistory.length > len.current.length) {
+    len.current = priceHistory;
+    changeComponent.current = 2;
+  }
+
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -87,7 +96,14 @@ const MiddleBar = (props: any) => {
         </div>
       </div>
       <div className={"middlebar-body"}>
-        <div className={"middlebar-chart"}></div>
+        <div className={"middlebar-chart"}>
+          {" "}
+          {changeComponent.current === 2 && (
+            <Chart transaction={transactions} priceHistory={priceHistory} />
+          )}
+          {changeComponent.current === 0 && "Please add"}
+          {changeComponent.current === 1 && "Loading..."}
+        </div>
         <div className={"transaction-breakdown"}>
           <TransactionBreakDown transactions={transactions} />
         </div>
