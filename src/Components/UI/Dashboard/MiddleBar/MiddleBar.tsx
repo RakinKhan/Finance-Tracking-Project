@@ -33,12 +33,21 @@ const MiddleBar = (props: any) => {
     });
   };
 
-  const transactionsHandler = async (transaction: any) => {
+  const transactionsHandler = (transaction: any) => {
     changeComponent.current = 1;
     transactions.current = [
       ...transactions.current,
       { ...transaction, key: Math.random() },
     ];
+    let list = transactions.current.map((price: any) => price.stock);
+    let list2 = priceHistory.map((price: any) => price.stock);
+    list.forEach((stock: any) => {
+      if (list2.includes(stock)) {
+        changeComponent.current = 2;
+      } else {
+        changeComponent.current = 1;
+      }
+    });
   };
 
   const [addingTransaction, setAddingTransaction] = useState(false);
@@ -77,7 +86,6 @@ const MiddleBar = (props: any) => {
     let currentPrices = priceHistory.map((stockPrice: any) => {
       return stockPrice.stock;
     });
-
     props.transactionsAll(transactions.current);
     props.pricesAll(currentPrices);
   }, [transactions, priceHistory]);
