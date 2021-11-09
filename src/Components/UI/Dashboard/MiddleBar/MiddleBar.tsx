@@ -6,61 +6,46 @@ import Chart from "./Chart/Chart";
 import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
 
 const MiddleBar = (props: any) => {
-  const [transactions, setTransactions] = useState([] as any);
+  const transactions = useRef([] as any);
   const [priceHistory, setPriceHistory] = useState([] as any);
   const changeComponent = useRef(0);
-  const len0 = useRef(transactions);
-  const len = useRef(priceHistory);
+
   let totalAmount = 0;
-  useEffect(() => {
-    const fetchPrice = async (stock: any) => {
-      const response = await fetch(
-        `https://sandbox.iexapis.com/stable/stock/${stock}/chart/max?token=Tpk_d74af26498e04009989e2c65053d1783`
-      );
-      const data = await response.json();
-      const filteredData = data.map((dayData: any) => {
-        return {
-          date: new Date(dayData.date.replace(/-/g, "/")),
-          price: dayData.close,
-        };
-      });
 
-      const block = {
-        stock: stock,
-        priceHistory: filteredData,
+  const fetchPrice = async (stock: any) => {
+    const response = await fetch(
+      `https://sandbox.iexapis.com/stable/stock/${stock}/chart/max?token=Tpk_d74af26498e04009989e2c65053d1783`
+    );
+    const data = await response.json();
+    const filteredData = data.map((dayData: any) => {
+      return {
+        date: new Date(dayData.date.replace(/-/g, "/")),
+        price: dayData.close,
       };
-      setPriceHistory((prevAverages: any) => {
-        return [...prevAverages, block];
-      });
+    });
+
+    const block = {
+      stock: stock,
+      priceHistory: filteredData,
     };
-
-    let currentPrices = priceHistory.map((stockPrice: any) => {
-      return stockPrice.stock;
-    });
-
-    props.transactionsAll(transactions);
-    props.pricesAll(currentPrices);
-    let list = transactions.map((price: any) => price.stock);
-    let list2 = priceHistory.map((price: any) => price.stock);
-    list.forEach((stock: any) => {
-      if (!list2.includes(stock)) {
-        fetchPrice(stock);
-      }
-    });
-  }, [transactions]);
-
-  const transactionsHandler = (transaction: any) => {
-    changeComponent.current = 1;
-    setTransactions((previousTransaction: any) => {
-      return [...previousTransaction, { ...transaction, key: Math.random() }];
+    setPriceHistory((prevHistory: any) => {
+      return [...prevHistory, block];
     });
   };
 
+  const transactionsHandler = async (transaction: any) => {
+    changeComponent.current = 1;
+    transactions.current = [
+      ...transactions.current,
+      { ...transaction, key: Math.random() },
+    ];
+  };
+
   const [addingTransaction, setAddingTransaction] = useState(false);
-  transactions.sort((a: any, b: any) => {
+  transactions.current.sort((a: any, b: any) => {
     return a.date - b.date;
   });
-  transactions.forEach((transaction: any) => {
+  transactions.current.forEach((transaction: any) => {
     if (transaction.type === "BUY") {
       totalAmount += transaction.amount;
     } else {
@@ -73,12 +58,31 @@ const MiddleBar = (props: any) => {
     const modal: HTMLElement = document.getElementById("add")!;
     modal.style.display = "block";
   };
+  useEffect(() => {
+    let list = transactions.current.map((price: any) => price.stock);
+    let list2 = priceHistory.map((price: any) => price.stock);
+    let find = "";
+    list.forEach((stock: any) => {
+      if (!list2.includes(stock)) {
+        find = stock;
+      }
+    });
+    if (find) {
+      console.log(find);
+      fetchPrice(find);
+      changeComponent.current = 2;
+    }
+  });
+  useEffect(() => {
+    let currentPrices = priceHistory.map((stockPrice: any) => {
+      return stockPrice.stock;
+    });
 
-  if (priceHistory.length > len.current.length) {
-    len.current = priceHistory;
-    changeComponent.current = 2;
-  }
-
+    props.transactionsAll(transactions.current);
+    props.pricesAll(currentPrices);
+  }, [transactions, priceHistory]);
+  console.log(transactions.current);
+  console.log(priceHistory);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -99,13 +103,16 @@ const MiddleBar = (props: any) => {
         <div className={"middlebar-chart"}>
           {" "}
           {changeComponent.current === 2 && (
-            <Chart transaction={transactions} priceHistory={priceHistory} />
+            <Chart
+              transaction={transactions.current}
+              priceHistory={priceHistory}
+            />
           )}
           {changeComponent.current === 0 && "Please add"}
           {changeComponent.current === 1 && "Loading..."}
         </div>
         <div className={"transaction-breakdown"}>
-          <TransactionBreakDown transactions={transactions} />
+          <TransactionBreakDown transactions={transactions.current} />
         </div>
         <div className={"middlebar-transactions"}>
           <div className={"transactions-list"}>
@@ -124,7 +131,7 @@ const MiddleBar = (props: any) => {
                 />
               )}
             </div>
-            <TransactionTable transactions={transactions} />
+            <TransactionTable transactions={transactions.current} />
           </div>
         </div>
       </div>
