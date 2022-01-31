@@ -1,21 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
-
+import moment from "moment";
 const sumShares = (shares: any) => shares.reduce((a: any, b: any) => a + b, 0);
 
 const dateRange = (start: any) => {
   let dates = [] as any;
-  let startDate = start.getTime();
+  let startDate = start
   const today = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
     new Date().getDate()
   ).getTime();
-  let currentDate = startDate;
-  while (currentDate <= today) {
-    dates.push(new Date(currentDate));
-    currentDate += 86400000;
+  let currentDate = moment(startDate);
+  while (currentDate <= moment(today)) {
+    dates.push(new Date(currentDate.format('YYYY/MM/DD')));
+    currentDate = moment(currentDate).add(1, 'days')
   }
   return dates;
 };
@@ -106,6 +106,7 @@ const Chart = (props: any) => {
 
   if (transactions.length > 0) {
     dateCollection = dateRange(transactions[0].date);
+    console.log(dateCollection);
     dateCollection.forEach((date: any) => {
       const startDate = date;
       let priceTotal = 0;
@@ -116,6 +117,7 @@ const Chart = (props: any) => {
         const found = priceHistory[i].priceHistory.find(
           (stock: any) => stock.date.getTime() === startDate.getTime()
         );
+
         if (
           found !== undefined &&
           startDate.getTime() >= startDate2.getTime()
@@ -185,6 +187,7 @@ const Chart = (props: any) => {
       });
     }
   });
+  console.log(priceHistoryDayAll);
   const data = {
     labels: dateCollection,
     datasets: [
