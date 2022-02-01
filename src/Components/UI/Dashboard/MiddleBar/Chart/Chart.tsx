@@ -28,10 +28,12 @@ const marketValues = (
   const names = stockNames;
   const history = priceHistory;
   const intervals = stockIntervals;
+
   names.forEach((name: any) => {
     const foundIntervals = intervals.find(
       (stock: any) => stock.stockName === name
     ).ownershipRange;
+    console.log(foundIntervals)
     const foundHistory = history
       .find((stock: any) => stock.stock === name)
       .priceHistory.filter(
@@ -39,6 +41,7 @@ const marketValues = (
       );
 
     if (foundIntervals.length === 1) {
+      console.log(true)
       const marketValues = [] as any;
       let amount = foundIntervals[0].amount;
       foundHistory.forEach((datePrice: any) => {
@@ -47,12 +50,13 @@ const marketValues = (
           marketValue: datePrice.price * amount,
         });
       });
-      console.log(amount);
-      console.log(marketValues);
+      console.log(marketValues)
     } else if (foundIntervals.length > 1) {
+      console.log(false)
       const marketValues = [] as any;
       let amount = foundIntervals[0].amount;
-      for (let i = 0; i < foundIntervals.length - 1; i++) {
+      console.log(amount)
+      for (let i = 0; i < foundIntervals.length-1; i++) {
         foundHistory.forEach((datePrice: any) => {
           if (
             datePrice.date.getTime() >= foundIntervals[i].date.getTime() &&
@@ -61,13 +65,14 @@ const marketValues = (
             marketValues.push({
               date: datePrice.date,
               marketValue: datePrice.price * amount,
+              amount: amount
             });
-          } else {
-            amount = foundIntervals[i + 1].amount;
-            console.log(amount);
           }
         });
+        amount = foundIntervals[i + 1].amount;
+        console.log(amount)
       }
+      console.log(amount)
       const lastToNow = foundHistory.filter(
         (datePrice: any) =>
           datePrice.date.getTime() >=
@@ -77,9 +82,10 @@ const marketValues = (
         marketValues.push({
           date: datePrice.date,
           marketValue: datePrice.price * amount,
+          amount: amount
         });
       });
-      console.log(marketValues);
+      console.log(marketValues)
     }
   });
   return "its working";
@@ -106,7 +112,6 @@ const Chart = (props: any) => {
 
   if (transactions.length > 0) {
     dateCollection = dateRange(transactions[0].date);
-    console.log(dateCollection);
     dateCollection.forEach((date: any) => {
       const startDate = date;
       let priceTotal = 0;
@@ -160,7 +165,8 @@ const Chart = (props: any) => {
       });
     });
   }
-  console.log(marketValues(stockNames, priceHistory, stockIntervals));
+
+  marketValues(stockNames, priceHistory, stockIntervals)
   transactions.forEach((transaction: any) => {
     let x = transaction.date;
     let y = transaction.amount;
@@ -187,7 +193,7 @@ const Chart = (props: any) => {
       });
     }
   });
-  console.log(priceHistoryDayAll);
+
   const data = {
     labels: dateCollection,
     datasets: [
