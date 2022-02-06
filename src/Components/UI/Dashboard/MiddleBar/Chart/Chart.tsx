@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import moment from "moment";
-const sumShares = (shares: any) => shares.reduce((a: any, b: any) => a + b, 0);
 
 const dateRange = (start: any) => {
   let dates = [] as any;
@@ -23,17 +22,18 @@ const dateRange = (start: any) => {
 const marketValues = (
   stockNames: any,
   priceHistory: any,
-  stockIntervals: any
+  stockIntervals: any, dateCollection: any
 ) => {
   const names = stockNames;
   const history = priceHistory;
   const intervals = stockIntervals;
-
+  const dates = dateCollection;
+  const marketValues = [] as any;
+  const values = [] as any;
   names.forEach((name: any) => {
     const foundIntervals = intervals.find(
       (stock: any) => stock.stockName === name
     ).ownershipRange;
-    console.log(foundIntervals)
     const foundHistory = history
       .find((stock: any) => stock.stock === name)
       .priceHistory.filter(
@@ -41,8 +41,6 @@ const marketValues = (
       );
 
     if (foundIntervals.length === 1) {
-      console.log(true)
-      const marketValues = [] as any;
       let amount = foundIntervals[0].amount;
       foundHistory.forEach((datePrice: any) => {
         marketValues.push({
@@ -50,45 +48,59 @@ const marketValues = (
           marketValue: datePrice.price * amount,
         });
       });
-      console.log(marketValues)
     } else if (foundIntervals.length > 1) {
-      console.log(false)
-      const marketValues = [] as any;
       let amount = foundIntervals[0].amount;
-      console.log(amount)
       for (let i = 0; i < foundIntervals.length-1; i++) {
         foundHistory.forEach((datePrice: any) => {
           if (
             datePrice.date.getTime() >= foundIntervals[i].date.getTime() &&
             datePrice.date.getTime() < foundIntervals[i + 1].date.getTime()
           ) {
-            marketValues.push({
-              date: datePrice.date,
-              marketValue: datePrice.price * amount,
-              amount: amount
-            });
+            if (amount != 0) {
+              marketValues.push({
+                date: datePrice.date,
+                marketValue: datePrice.price * amount,
+                amount: amount
+              });
+            }
           }
         });
         amount = foundIntervals[i + 1].amount;
-        console.log(amount)
       }
-      console.log(amount)
-      const lastToNow = foundHistory.filter(
-        (datePrice: any) =>
-          datePrice.date.getTime() >=
-          foundIntervals[foundIntervals.length - 1].date.getTime()
-      );
-      lastToNow.forEach((datePrice: any) => {
-        marketValues.push({
-          date: datePrice.date,
-          marketValue: datePrice.price * amount,
-          amount: amount
+
+      if (amount != 0) {
+        const lastToNow = foundHistory.filter(
+          (datePrice: any) =>
+            datePrice.date.getTime() >=
+            foundIntervals[foundIntervals.length - 1].date.getTime()
+        );
+        lastToNow.forEach((datePrice: any) => {
+          marketValues.push({
+            date: datePrice.date,
+            marketValue: datePrice.price * amount,
+            amount: amount
+          });
         });
-      });
-      console.log(marketValues)
+      }
     }
   });
-  return "its working";
+  dates.forEach((idate:any) => {
+    const found = marketValues.filter(({date}: any) => date.getTime() === idate.getTime())
+    if (found.length == 1) {
+      values.push({
+        x: idate,
+        y: found[0].marketValue
+      })
+    } else if (found.length > 1) {
+      let mv = 0
+      found.forEach((data:any) => mv += data.marketValue)
+      values.push({
+        x: idate,
+        y: mv
+      })
+    }
+  })
+  return values;
 };
 
 const Chart = (props: any) => {
@@ -166,7 +178,7 @@ const Chart = (props: any) => {
     });
   }
 
-  marketValues(stockNames, priceHistory, stockIntervals)
+  
   transactions.forEach((transaction: any) => {
     let x = transaction.date;
     let y = transaction.amount;
@@ -200,7 +212,7 @@ const Chart = (props: any) => {
       {
         type: "line",
         label: "Book Value",
-        data: priceHistoryDayAll,
+        data: marketValues(stockNames, priceHistory, stockIntervals, dateCollection),
         backgroundColor: "gray",
         fill: false,
       },

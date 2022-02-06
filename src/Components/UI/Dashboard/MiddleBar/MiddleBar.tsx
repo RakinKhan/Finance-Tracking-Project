@@ -88,7 +88,7 @@ const MiddleBar = (props: any) => {
     });
     props.transactionsAll(transactions.current);
     props.pricesAll(currentPrices);
-  }, [transactions, priceHistory]);
+  }, [transactions.current, priceHistory]);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>

@@ -20,7 +20,7 @@ const RightSideBar = (props: any) => {
       stockName.push(transaction.stock);
     }
   });
-
+  console.log(transactions)
   stockName.forEach((stock: any) => {
     const allStockTransactions = transactions.filter(
       (transaction: any) => transaction.stock === stock
