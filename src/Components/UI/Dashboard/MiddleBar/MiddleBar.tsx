@@ -48,6 +48,7 @@ const MiddleBar = (props: any) => {
         changeComponent.current = 1;
       }
     });
+    props.transactionsAll(transactions.current);
   };
 
   const [addingTransaction, setAddingTransaction] = useState(false);
@@ -86,9 +87,9 @@ const MiddleBar = (props: any) => {
     let currentPrices = priceHistory.map((stockPrice: any) => {
       return stockPrice.stock;
     });
-    props.transactionsAll(transactions.current);
+
     props.pricesAll(currentPrices);
-  }, [transactions.current, priceHistory]);
+  }, [priceHistory]);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
