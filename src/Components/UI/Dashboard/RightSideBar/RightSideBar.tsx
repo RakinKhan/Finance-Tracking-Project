@@ -10,6 +10,7 @@ let backgroundColor = [] as any;
 const RightSideBar = (props: any) => {
   const transactions = props.transactions;
   const currentPrices = props.prices;
+  console.log(currentPrices)
   let stockName = [] as any;
   let labels = [] as any;
   let datapoints = [] as any;
@@ -20,7 +21,7 @@ const RightSideBar = (props: any) => {
       stockName.push(transaction.stock);
     }
   });
-  console.log(transactions)
+
   stockName.forEach((stock: any) => {
     const allStockTransactions = transactions.filter(
       (transaction: any) => transaction.stock === stock
@@ -56,7 +57,7 @@ const RightSideBar = (props: any) => {
       });
     }
   });
-
+  
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>

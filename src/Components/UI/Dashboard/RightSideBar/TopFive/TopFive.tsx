@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./TopFive.css";
 
 const TopFive = (props: any) => {
   const averages = props.averages;
   const currentPrices = props.currentPrices;
-
+  console.log(currentPrices)
   let calculatedAverages = [] as any;
 
   averages.forEach((average: any) => {
@@ -21,10 +21,30 @@ const TopFive = (props: any) => {
       }
     });
   });
-
+  console.log(calculatedAverages)
   calculatedAverages.sort((a: any, b: any) => {
     return b.change - a.change;
   });
+
+  setInterval(() => {
+    if (currentPrices.length > 0) {
+      const stockpricearray = [] as any;
+      currentPrices.forEach((ticker: any)=>{
+        const fetchCurrentPrice = async (ticker:any) => {
+          const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=sandbox_c088t7n48v6plm1egj1g`)
+          const data = await response.json();
+          let obj = {
+            ticker: ticker,
+            price: data.c
+          }
+          console.log(obj)
+        }
+        fetchCurrentPrice(ticker) 
+      })
+      console.log(stockpricearray)
+    }
+  }, 10000)
+
   return (
     <div className={"divstyle"}>
       <div className={"top-performers-header"}>Top Performers</div>
