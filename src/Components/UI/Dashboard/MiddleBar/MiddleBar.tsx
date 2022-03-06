@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext} from "react";
 import "./MiddleBar.css";
 import AddTransaction from "./AddTransaction/AddTransaction";
 import TransactionTable from "./TransactionTable/TransactionTable";
 import Chart from "./Chart/Chart";
 import TransactionBreakDown from "./TransactionBreakdown/TransactionBreakdown";
+import { TransactionsContext } from "../../../../TransactionsContext";
 
 const MiddleBar = (props: any) => {
   const transactions = useRef([] as any);
   const [priceHistory, setPriceHistory] = useState([] as any);
   const changeComponent = useRef(0);
-
+  const {transactionsAll, setTransactionsAll} = useContext(TransactionsContext)
   let totalAmount = 0;
 
   const fetchPrice = async (stock: any) => {
@@ -48,7 +49,7 @@ const MiddleBar = (props: any) => {
         changeComponent.current = 1;
       }
     });
-    props.transactionsAll(transactions.current);
+    setTransactionsAll(transactions.current);
   };
 
   const [addingTransaction, setAddingTransaction] = useState(false);

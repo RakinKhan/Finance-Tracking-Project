@@ -2,28 +2,28 @@ import React, { useState } from "react";
 import LeftSideBar from "./LeftSideBar/LeftSideBar";
 import MiddleBar from "./MiddleBar/MiddleBar";
 import RightSideBar from "./RightSideBar/RightSideBar";
-
+import { TransactionsContext } from "../../../TransactionsContext";
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
   const [pricesAll, setPricesAll] = useState([] as any);
 
-  const transactionsAllHandler = (transactionsHistory: any) => {
-    setTransactionsAll(transactionsHistory);
-  };
+  
   const pricesAllHandler = (pricesAllHistory: any) => {
     setPricesAll(pricesAllHistory);
   };
-
+  console.log(pricesAll)
   return (
     <div className={"container pageheight"}>
       <LeftSideBar />
+      <TransactionsContext.Provider value={{transactionsAll, setTransactionsAll}}>
       <MiddleBar
-        transactionsAll={transactionsAllHandler}
         pricesAll={pricesAllHandler}
       />
-      <RightSideBar transactions={transactionsAll} prices={pricesAll} />
+      <RightSideBar prices={pricesAll} />
+      </TransactionsContext.Provider>
+
     </div>
   );
 };
 
-export default Dashboard;
+export default React.memo(Dashboard);

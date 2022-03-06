@@ -1,14 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./RightSideBar.css";
 import BreakdownPie from "./BreakdownPie/BreakdownPie";
 import TopFive from "./TopFive/TopFive";
-
+import { TransactionsContext } from "../../../../TransactionsContext"; 
 const sumShares = (shares: any) => shares.reduce((a: any, b: any) => a + b, 0);
 
 let backgroundColor = [] as any;
 
 const RightSideBar = (props: any) => {
-  const transactions = props.transactions;
+  const {transactionsAll} = useContext(TransactionsContext)
   const currentPrices = props.prices;
   console.log(currentPrices)
   let stockName = [] as any;
@@ -16,14 +16,14 @@ const RightSideBar = (props: any) => {
   let datapoints = [] as any;
   let averages = [] as any;
   let stockIntervals = [] as any;
-  transactions.forEach((transaction: any) => {
+  transactionsAll.forEach((transaction: any) => {
     if (!stockName.includes(transaction.stock)) {
       stockName.push(transaction.stock);
     }
   });
 
   stockName.forEach((stock: any) => {
-    const allStockTransactions = transactions.filter(
+    const allStockTransactions = transactionsAll.filter(
       (transaction: any) => transaction.stock === stock
     );
     let buy = [] as any;
@@ -57,7 +57,9 @@ const RightSideBar = (props: any) => {
       });
     }
   });
-  
+
+  console.log(averages.length)
+
   return (
     <div className={"rightsidebar"}>
       <div className={"profit"}></div>
