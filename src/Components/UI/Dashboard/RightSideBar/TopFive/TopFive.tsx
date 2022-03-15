@@ -4,8 +4,7 @@ import "./TopFive.css";
 const TopFive = (props: any) => {
   
   const averages = props.averages;
-  const currentPrices = props.currentPrices;
-  console.log(currentPrices.length)
+  const currentPrices = props.labels;
   let calculatedAverages = [] as any;
 
   averages.forEach((average: any) => {
@@ -26,8 +25,15 @@ const TopFive = (props: any) => {
   calculatedAverages.sort((a: any, b: any) => {
     return b.change - a.change;
   });
-
-
+  
+  const currentPriceAll = async () => {
+    const pAll = await Promise.all(["AAPL", "TSLA"].map((tkr: any) => {
+      const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${tkr}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json())
+      return response
+    }))
+    console.log(pAll)
+  }
+  currentPriceAll()
   return (
     <div className={"divstyle"}>
       <div className={"top-performers-header"}>Top Performers</div>

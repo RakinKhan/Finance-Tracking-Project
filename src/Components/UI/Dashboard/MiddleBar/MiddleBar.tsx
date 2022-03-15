@@ -84,13 +84,7 @@ const MiddleBar = (props: any) => {
       changeComponent.current = 2;
     }
   });
-  useEffect(() => {
-    let currentPrices = priceHistory.map((stockPrice: any) => {
-      return stockPrice.stock;
-    });
 
-    props.pricesAll(currentPrices);
-  }, [priceHistory]);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>

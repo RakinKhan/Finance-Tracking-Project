@@ -9,8 +9,6 @@ let backgroundColor = [] as any;
 
 const RightSideBar = (props: any) => {
   const {transactionsAll} = useContext(TransactionsContext)
-  const currentPrices = props.prices;
-  console.log(currentPrices)
   let stockName = [] as any;
   let labels = [] as any;
   let datapoints = [] as any;
@@ -58,7 +56,7 @@ const RightSideBar = (props: any) => {
     }
   });
 
-  console.log(averages.length)
+
 
   return (
     <div className={"rightsidebar"}>
@@ -71,7 +69,7 @@ const RightSideBar = (props: any) => {
         />
       </div>
       <div className={"top-five"}>
-        <TopFive averages={averages} currentPrices={currentPrices} />
+        <TopFive averages={averages} labels={labels}/>
       </div>
     </div>
   );

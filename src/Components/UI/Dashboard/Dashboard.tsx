@@ -5,21 +5,13 @@ import RightSideBar from "./RightSideBar/RightSideBar";
 import { TransactionsContext } from "../../../TransactionsContext";
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
-  const [pricesAll, setPricesAll] = useState([] as any);
 
-  
-  const pricesAllHandler = (pricesAllHistory: any) => {
-    setPricesAll(pricesAllHistory);
-  };
-  console.log(pricesAll)
   return (
     <div className={"container pageheight"}>
       <LeftSideBar />
       <TransactionsContext.Provider value={{transactionsAll, setTransactionsAll}}>
-      <MiddleBar
-        pricesAll={pricesAllHandler}
-      />
-      <RightSideBar prices={pricesAll} />
+      <MiddleBar />
+      <RightSideBar />
       </TransactionsContext.Provider>
 
     </div>
