@@ -13,7 +13,6 @@ const RightSideBar = (props: any) => {
   let labels = [] as any;
   let datapoints = [] as any;
   let averages = [] as any;
-  let stockIntervals = [] as any;
   transactionsAll.forEach((transaction: any) => {
     if (!stockName.includes(transaction.stock)) {
       stockName.push(transaction.stock);

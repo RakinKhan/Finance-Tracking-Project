@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import ChartComponent from "react-chartjs-2";
 import "./TopFive.css";
 
 const TopFive = (props: any) => {
@@ -7,7 +6,6 @@ const TopFive = (props: any) => {
   const comp = useRef(false)
   const averages = props.averages;
   const labels = props.labels;
-  const currentPrices = useRef([]as any)
   const [pall, setPall] = useState([]as any)
   let calculatedAverages = [] as any;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import moment from "moment";
@@ -56,7 +56,7 @@ const marketValues = (
             datePrice.date.getTime() >= foundIntervals[i].date.getTime() &&
             datePrice.date.getTime() < foundIntervals[i + 1].date.getTime()
           ) {
-            if (amount != 0) {
+            if (amount !== 0) {
               marketValues.push({
                 date: datePrice.date,
                 marketValue: datePrice.price * amount,
@@ -68,7 +68,7 @@ const marketValues = (
         amount = foundIntervals[i + 1].amount;
       }
 
-      if (amount != 0) {
+      if (amount !== 0) {
         const lastToNow = foundHistory.filter(
           (datePrice: any) =>
             datePrice.date.getTime() >=
@@ -86,7 +86,7 @@ const marketValues = (
   });
   dates.forEach((idate:any) => {
     const found = marketValues.filter(({date}: any) => date.getTime() === idate.getTime())
-    if (found.length == 1) {
+    if (found.length === 1) {
       values.push({
         x: idate,
         y: found[0].marketValue
