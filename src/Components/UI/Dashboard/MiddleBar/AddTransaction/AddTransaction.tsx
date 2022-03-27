@@ -1,10 +1,7 @@
-import React, { useState, useReducer } from "react";
+import React, { useState} from "react";
 import ReactDOM from "react-dom";
-import moment from "moment";
 import "./AddTransaction.css";
 
-const ACTIONS = {};
-const reducer = (state: any, action: any) => {};
 
 const Form = (props: any) => {
   const modal: HTMLElement = document.getElementById("add")!;
