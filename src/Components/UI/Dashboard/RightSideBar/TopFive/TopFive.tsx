@@ -27,7 +27,7 @@ const TopFive = (props: any) => {
     });
   });
   useEffect(() => {
-
+    console.log("hi")
     const currentPriceAll = async (labels:any) => {
       const pAll = await Promise.all(labels.map((label: any) => {
         const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {
@@ -39,19 +39,18 @@ const TopFive = (props: any) => {
       setPall(pAll)
     }
     if (labels.length > 0) {
+      changeComponent.current = 1
       currentPriceAll(labels)
       comp.current=true
-      changeComponent.current = 1
     }
   }, [labels])
   
-
-
   if (comp.current === true && changeComponent.current === 1) {
     comp.current = false;
     changeComponent.current = 2
-    console.log(pall)
+    
   }
+
   return (
     <div className={"divstyle"}>
       <div className={"top-performers-header"}>Top Performers</div>

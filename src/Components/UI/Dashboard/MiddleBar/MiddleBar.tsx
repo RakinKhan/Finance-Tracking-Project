@@ -10,6 +10,7 @@ const MiddleBar = (props: any) => {
   const transactions = useRef([] as any);
   const [priceHistory, setPriceHistory] = useState([] as any);
   const changeComponent = useRef(0);
+  const comp = useRef(false)
   const {transactionsAll, setTransactionsAll} = useContext(TransactionsContext)
   let totalAmount = 0;
 
@@ -73,6 +74,7 @@ const MiddleBar = (props: any) => {
     let list = transactions.current.map((price: any) => price.stock);
     let list2 = priceHistory.map((price: any) => price.stock);
     let find = "";
+
     list.forEach((stock: any) => {
       if (!list2.includes(stock)) {
         find = stock;
@@ -80,11 +82,15 @@ const MiddleBar = (props: any) => {
     });
     if (find) {
       console.log(find);
+      comp.current = true
       fetchPrice(find);
-      changeComponent.current = 2;
+      changeComponent.current = 2
     }
-  });
+    
+  }, [transactions.current]);
 
+  console.log(changeComponent.current);
+  console.log(comp.current);
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
