@@ -89,8 +89,7 @@ const MiddleBar = (props: any) => {
     
   }, [transactions.current]);
 
-  console.log(changeComponent.current);
-  console.log(comp.current);
+
   return (
     <div className={"middlebar"}>
       <div className={"middlebar-header"}>
@@ -111,9 +110,7 @@ const MiddleBar = (props: any) => {
         <div className={"middlebar-chart"}>
           {" "}
           {changeComponent.current === 2 && (
-            <Chart
-              transaction={transactions.current}
-              priceHistory={priceHistory}
+            <Chart priceHistory={priceHistory}
             />
           )}
           {changeComponent.current === 0 && "Please add"}

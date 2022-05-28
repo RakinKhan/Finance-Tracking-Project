@@ -27,7 +27,6 @@ const TopFive = (props: any) => {
     });
   });
   useEffect(() => {
-    console.log("hi")
     const currentPriceAll = async (labels:any) => {
       const pAll = await Promise.all(labels.map((label: any) => {
         const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {

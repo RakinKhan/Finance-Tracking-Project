@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import moment from "moment";
-
+import { TransactionsContext } from "../../../../../TransactionsContext";
 const dateRange = (start: any) => {
   let dates = [] as any;
   let startDate = start
@@ -104,7 +104,8 @@ const marketValues = (
 };
 
 const Chart = (props: any) => {
-  const transactions = props.transaction;
+  const {transactionsAll} = useContext(TransactionsContext)
+  const transactions = transactionsAll;
   const priceHistory = props.priceHistory;
   const buy = [] as any;
   const sell = [] as any;

@@ -5,7 +5,6 @@ import RightSideBar from "./RightSideBar/RightSideBar";
 import { TransactionsContext } from "../../../TransactionsContext";
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
-
   return (
     <div className={"container pageheight"}>
       <LeftSideBar />
