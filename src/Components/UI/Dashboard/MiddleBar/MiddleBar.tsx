@@ -87,7 +87,7 @@ const MiddleBar = (props: any) => {
       changeComponent.current = 2
     }
     
-  }, [transactions.current]);
+  }, [transactionsAll]);
 
 
   return (

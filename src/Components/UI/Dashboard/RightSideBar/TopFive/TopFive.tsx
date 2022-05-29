@@ -43,7 +43,26 @@ const TopFive = (props: any) => {
       comp.current=true
     }
   }, [labels])
-  
+
+  useEffect(() => {
+    const currentPriceAll = async (labels:any) => {
+      const pAll = await Promise.all(labels.map((label: any) => {
+        const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {
+          stock: label,
+          price: res.c
+        }})
+        return response
+      }))
+      setPall(pAll)
+    }
+    if (pall.length > 0) {
+      const interval = setInterval(() => {
+        currentPriceAll(labels)
+      }, 10000)
+      return () => clearInterval(interval)
+    }
+  }, [pall])
+  console.log(pall)
   if (comp.current === true && changeComponent.current === 1) {
     comp.current = false;
     changeComponent.current = 2
