@@ -9,6 +9,17 @@ const TopFive = (props: any) => {
   const [pall, setPall] = useState([]as any)
   let calculatedAverages = [] as any;
 
+  const currentPriceAll = async (labels:any) => {
+    const pAll = await Promise.all(labels.map((label: any) => {
+      const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {
+        stock: label,
+        price: res.c
+      }})
+      return response
+    }))
+    setPall(pAll)
+  }
+
   calculatedAverages.sort((a: any, b: any) => {
     return b.change - a.change;
   });
@@ -27,16 +38,6 @@ const TopFive = (props: any) => {
     });
   });
   useEffect(() => {
-    const currentPriceAll = async (labels:any) => {
-      const pAll = await Promise.all(labels.map((label: any) => {
-        const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {
-          stock: label,
-          price: res.c
-        }})
-        return response
-      }))
-      setPall(pAll)
-    }
     if (labels.length > 0) {
       changeComponent.current = 1
       currentPriceAll(labels)
@@ -45,23 +46,13 @@ const TopFive = (props: any) => {
   }, [labels])
 
   useEffect(() => {
-    const currentPriceAll = async (labels:any) => {
-      const pAll = await Promise.all(labels.map((label: any) => {
-        const response = fetch(`https://finnhub.io/api/v1/quote?symbol=${label}&token=bprteb7rh5r8s3uvb2ag`).then((res:any) => res.json()).then((res:any) => {return {
-          stock: label,
-          price: res.c
-        }})
-        return response
-      }))
-      setPall(pAll)
-    }
     if (pall.length > 0) {
       const interval = setInterval(() => {
         currentPriceAll(labels)
-      }, 10000)
+      }, 15000)
       return () => clearInterval(interval)
     }
-  }, [pall])
+  }, [pall, labels])
   console.log(pall)
   if (comp.current === true && changeComponent.current === 1) {
     comp.current = false;

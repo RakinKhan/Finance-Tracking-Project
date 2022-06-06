@@ -71,6 +71,7 @@ const MiddleBar = (props: any) => {
     modal.style.display = "block";
   };
   useEffect(() => {
+    console.log('hi')
     let list = transactions.current.map((price: any) => price.stock);
     let list2 = priceHistory.map((price: any) => price.stock);
     let find = "";

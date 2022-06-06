@@ -3,6 +3,8 @@ import LeftSideBar from "./LeftSideBar/LeftSideBar";
 import MiddleBar from "./MiddleBar/MiddleBar";
 import RightSideBar from "./RightSideBar/RightSideBar";
 import { TransactionsContext } from "../../../TransactionsContext";
+import { Route, Routes } from "react-router-dom";
+
 const Dashboard = () => {
   const [transactionsAll, setTransactionsAll] = useState([] as any);
   return (
