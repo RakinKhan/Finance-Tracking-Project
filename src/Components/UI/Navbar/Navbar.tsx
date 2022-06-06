@@ -7,7 +7,7 @@ const Navbar = (props: any) => {
     <nav className="navbar">
       <div className="container-fluid">
         <ul className={"container main-nav"}>
-          <li className={"home"}>Home</li>
+          <li className={"home"}><Link to="/">Home</Link></li>
           <li className={"about"}><Link to='about'>About</Link></li>
           <li className={"technologies"}><Link to='technologies'>Technologies</Link> </li>
           <div className={"site-access"}>
